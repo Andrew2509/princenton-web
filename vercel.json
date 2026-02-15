@@ -22,7 +22,13 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
-
+        "SESSION_DRIVER": "cookie",
+        "DB_CONNECTION": "mysql",
+        "DB_HOST": "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
+        "DB_PORT": "4000",
+        "DB_DATABASE": "test",
+        "DB_USERNAME": "2hkvQft68BKi3xN.root",
+        "DB_PASSWORD": "5YW6ST6IfBUjwwtZ",
+        "MYSQL_ATTR_SSL_CA": "storage/app/ca.pem"
     }
 }
