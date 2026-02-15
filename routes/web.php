@@ -14,6 +14,39 @@ use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\PortfolioController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+Route::get('/debug-ssl', function () {
+    $path = env('MYSQL_ATTR_SSL_CA');
+    $testPaths = [
+        'env_original' => $path,
+        'base_path_env' => base_path($path),
+        'storage_app_ca' => storage_path('app/ca.pem'),
+        'base_storage_app_ca' => base_path('storage/app/ca.pem'),
+        'public_ca' => public_path('ca.pem'),
+    ];
+
+    $results = [];
+    foreach ($testPaths as $key => $p) {
+        $results[$key] = [
+            'path' => $p,
+            'exists' => file_exists($p),
+            'readable' => is_readable($p),
+            'realpath' => realpath($p),
+        ];
+    }
+
+    return [
+        'extension_loaded' => extension_loaded('pdo_mysql'),
+        'openssl_loaded' => extension_loaded('openssl'),
+        'paths' => $results,
+        'dir_storage_app' => is_dir(storage_path('app')) ? scandir(storage_path('app')) : 'not a dir',
+        'dir_base' => scandir(base_path()),
+        'env_vars' => [
+            'MYSQL_ATTR_SSL_CA' => env('MYSQL_ATTR_SSL_CA'),
+            'DB_HOST' => env('DB_HOST'),
+        ]
+    ];
+});
+
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
