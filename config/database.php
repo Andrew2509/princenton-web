@@ -61,10 +61,22 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => (function() {
                     $caPath = env('MYSQL_ATTR_SSL_CA');
-                    if (!$caPath) return null;
-                    if (file_exists($caPath)) return realpath($caPath);
+                    if (!$caPath) {
+                        error_log("SSL_DEBUG: MYSQL_ATTR_SSL_CA env is empty");
+                        return null;
+                    }
+                    if (file_exists($caPath)) {
+                        $p = realpath($caPath);
+                        error_log("SSL_DEBUG: Found at absolute path: $p");
+                        return $p;
+                    }
                     $fullPath = base_path($caPath);
-                    if (file_exists($fullPath)) return realpath($fullPath);
+                    if (file_exists($fullPath)) {
+                        $p = realpath($fullPath);
+                        error_log("SSL_DEBUG: Found at base_path: $p");
+                        return $p;
+                    }
+                    error_log("SSL_DEBUG: CA file NOT FOUND at $caPath or $fullPath");
                     return null;
                 })(),
                 PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_ATTR_SSL_CA') ? true : false,
