@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #293754;
+    --color-background-light: #f6f7f7;
+    --color-background-dark: #15181d;
+    --font-display: "Inter", "sans-serif";
+    --radius-lg: 2rem;
+    --radius-xl: 3rem;
+}
+
+/* Base Utility Overrides */
+.grayscale-filter {
+    filter: grayscale(100%) opacity(0.6);
+}
+.grayscale-off {
+    filter: grayscale(0%) opacity(1);
+}
+
+/* Timeline Custom Styles */
+.timeline-line {
+    background-color: #293754; /* Explicit fallback */
+    background: linear-gradient(to bottom, transparent, #293754 10%, #293754 90%, transparent);
+    opacity: 0.2;
+}
+.dark .timeline-line {
+    background-color: white;
+    background: linear-gradient(to bottom, transparent, white 10%, white 90%, transparent);
+    opacity: 0.2;
+}
+
+/* Marquee Styles */
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+.marquee-container {
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Tech Marquee Customization */
+.marquee-container.\!bg-transparent {
+    background-color: transparent !important;
+}
+.marquee-container.\!py-0 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.marquee-container.\!border-none {
+    border: none !important;
+}
+
+/* STAR Process Section Specifics */
+.section-process {
+    padding: 6rem 0;
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.process-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.process-number {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient Backgrounds */
+.bg-deep-navy {
+    background-color: #293754;
+}
+
+.radial-gradient-overlay {
+    background: radial-gradient(circle at top right, rgba(37,99,235,0.1), transparent);
+}
