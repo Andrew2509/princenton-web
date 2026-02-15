@@ -13,7 +13,7 @@ class PortfolioController extends Controller
 {
     public function index()
     {
-        $about = AboutMe::first();
+        $about = AboutMe::first() ?? new AboutMe();
         $featuredProjects = Project::where('is_featured', true)->orderBy('sort_order')->get();
         $skills = Skill::where('is_active', true)->orderBy('sort_order')->get();
 
@@ -40,7 +40,7 @@ class PortfolioController extends Controller
 
     public function about()
     {
-        $about = AboutMe::first();
+        $about = AboutMe::first() ?? new AboutMe();
         $skills = Skill::where('is_active', true)->orderBy('sort_order')->get();
         return view('about', compact('about', 'skills'));
     }
