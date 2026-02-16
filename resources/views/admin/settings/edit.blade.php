@@ -93,7 +93,7 @@
                         <label class="block text-sm font-semibold text-slate-700">Favicon</label>
                         <div class="mt-1 flex items-center gap-4">
                             <div class="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center p-2 overflow-hidden">
-                                @php $faviconUrl = isset($settings['favicon_url']) ? asset($settings['favicon_url']) : null; @endphp
+                                @php $faviconUrl = $settings['favicon_url'] ?? null; @endphp
                                 <img id="favicon-preview" src="{{ $faviconUrl ?: '#' }}" class="max-w-full max-h-full {{ !$faviconUrl ? 'hidden' : '' }}" />
                                 <span id="favicon-placeholder" class="material-symbols-outlined text-slate-400 {{ $faviconUrl ? 'hidden' : '' }}">image</span>
                             </div>
@@ -170,7 +170,7 @@
                             <label class="block text-sm font-semibold text-slate-700">Profile Picture</label>
                             <div class="flex items-center gap-6">
                                 <div class="relative shrink-0">
-                                    <img id="avatar-preview" alt="Admin Profile" class="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 border border-slate-200" src="{{ $user->avatar_url ? asset($user->avatar_url) : 'https://via.placeholder.com/100' }}"/>
+                                    <img id="avatar-preview" alt="Admin Profile" class="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 border border-slate-200" src="{{ $user->avatar_url ?: 'https://via.placeholder.com/100' }}"/>
                                     <label for="avatar-input" class="absolute bottom-0 right-0 w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-slate-800 transition-colors border-2 border-white">
                                         <span class="material-symbols-outlined text-sm">photo_camera</span>
                                     </label>

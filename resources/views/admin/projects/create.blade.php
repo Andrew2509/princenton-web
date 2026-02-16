@@ -31,7 +31,7 @@
     <h1 class="text-lg font-bold text-slate-900">Add New Project</h1>
 </div>
 
-<form action="{{ route('admin.projects.store') }}" method="POST" class="max-w-4xl mx-auto pb-28">
+<form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data" class="max-w-4xl mx-auto pb-28">
     @csrf
 
     {{-- Section 1: Basic Information --}}
@@ -166,12 +166,33 @@
         </div>
         <div class="space-y-6">
             <div>
-                <label class="input-label">Project Mockup Image URL</label>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">image</span>
-                    <input class="input-field pl-10" name="image_url" value="{{ old('image_url') }}" placeholder="https://example.com/mockup.png" type="url"/>
+                <div class="flex items-center justify-between mb-4">
+                    <label class="input-label mb-0">Project Mockup Image</label>
                 </div>
-                <p class="text-xs text-slate-400 mt-2">Paste an image URL for the project thumbnail</p>
+
+                <div id="mockup-upload-group">
+                    <div class="relative group cursor-pointer">
+                        <input type="file" name="mockup_file" id="mockup-file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewMockupFile(this)"/>
+                        <div id="mockup-dropzone" class="border-2 border-dashed border-slate-200 rounded-xl p-8 flex flex-col items-center justify-center gap-2 group-hover:border-accent group-hover:bg-blue-50/50 transition-all">
+                            <div class="w-12 h-12 rounded-full bg-slate-50 text-slate-400 group-hover:bg-white group-hover:text-accent flex items-center justify-center transition-all">
+                                <span class="material-symbols-outlined text-2xl">cloud_upload</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-slate-700">Click to upload or drag & drop</p>
+                                <p class="text-xs text-slate-500">PNG, JPG or WEBP (Max 2MB)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mockup-preview-container" class="mt-4 hidden p-2 bg-slate-50 rounded-xl border border-slate-200 inline-block">
+                    <div class="relative group">
+                        <img id="mockup-preview-img" src="#" class="max-h-[160px] rounded-lg shadow-sm border border-slate-200" alt="Preview"/>
+                        <button type="button" onclick="clearMockupPreview()" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-md hover:bg-red-600 transition-colors">
+                            <span class="material-symbols-outlined text-[14px]">close</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div>
                 <label class="input-label" for="live-link">Live Project Link</label>
@@ -244,6 +265,26 @@
 </form>
 
 <script>
+    // Mockup Management
+    function previewMockupFile(input) {
+        const container = document.getElementById('mockup-preview-container');
+        const img = document.getElementById('mockup-preview-img');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                img.src = e.target.result;
+                container.classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function clearMockupPreview() {
+        document.getElementById('mockup-preview-container').classList.add('hidden');
+        document.getElementById('mockup-file-input').value = '';
+    }
+
     // Tech Stack Tool Manager
     const toolsContainer = document.getElementById('tools-container');
     const toolsHidden = document.getElementById('tools-hidden');

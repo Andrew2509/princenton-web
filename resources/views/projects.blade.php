@@ -4,10 +4,20 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{{ \App\Models\SiteSetting::t('site_title') ?? 'Galeri Proyek | Desainer UI/UX & Pengembang Web' }}</title>
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page-container">
 @include('components.navbar')
@@ -51,9 +61,20 @@
             @foreach($projects as $index => $project)
             <article class="project-article group bg-white dark:bg-white/5 rounded-3xl overflow-hidden border border-primary/5 shadow-sm hover:shadow-xl transition-all duration-500" data-category="{{ $project->category }}">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
-                    <div class="lg:col-span-7 bg-primary/[0.03] dark:bg-primary/20 flex items-center justify-center p-8 lg:p-12 overflow-hidden {{ $index % 2 != 0 ? 'lg:order-last' : '' }}">
+                    <div class="lg:col-span-7 bg-primary/3 dark:bg-primary/20 flex items-center justify-center p-8 lg:p-12 overflow-hidden {{ $index % 2 != 0 ? 'lg:order-last' : '' }}">
                         <div class="relative w-full max-w-2xl transition-transform duration-700 group-hover:scale-105">
-                            <img alt="{{ $project->title }}" class="w-full h-auto drop-shadow-2xl rounded-xl" src="{{ $project->image_url }}"/>
+                            @php
+                                $isSafeUrl = $project->image_url &&
+                                           (Str::startsWith($project->image_url, ['http://', 'https://', '/', 'data:']) &&
+                                           !Str::startsWith($project->image_url, 'file:'));
+                            @endphp
+                            @if($isSafeUrl)
+                            <img alt="{{ $project->title }}" class="w-full h-auto drop-shadow-2xl rounded-xl" src="{{ $project->image_url }}" loading="lazy"/>
+                            @else
+                            <div class="w-full aspect-video bg-primary/5 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary/20 text-4xl">image</span>
+                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-center">

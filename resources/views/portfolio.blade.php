@@ -4,10 +4,20 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{{ \App\Models\SiteSetting::t('site_title') ?? 'Process-Driven Portfolio | UI/UX & Dev' }}</title>
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page-container">
 @include('components.navbar')
@@ -72,7 +82,11 @@
                 <div class="hero-frame-group">
                     <div class="hero-frame-bg-outer"></div>
                     <div class="hero-frame-bg-inner">
-                        <img alt="Professional profile of {{ $about->name }}, {{ $about->title }}" class="hero-image grayscale hover:grayscale-0 transition-all duration-700" src="{{ $about->profile_image_url ?: 'https://via.placeholder.com/600' }}"/>
+                        <img alt="Professional profile of {{ $about->name }}, {{ $about->title }}"
+                             class="hero-image grayscale hover:grayscale-0 transition-all duration-700"
+                             src="{{ $about->profile_image_url ?: 'https://via.placeholder.com/600' }}"
+                             fetchpriority="high"
+                             loading="eager"/>
                         <div class="hero-image-overlay"></div>
                     </div>
 
@@ -106,7 +120,7 @@
         <!-- Tech Set 1 -->
         @foreach($skills as $skill)
         <div class="tech-item">
-            <img alt="{{ $skill->name }}" class="tech-logo" src="{{ $skill->icon_url }}"/>
+            <img alt="{{ $skill->name }}" class="tech-logo" src="{{ $skill->icon_url }}" loading="lazy"/>
             <span class="tech-name">{{ $skill->name }}</span>
         </div>
         @endforeach
@@ -154,7 +168,18 @@
             <div class="project-card" data-category="{{ $project->category }}">
                 <div class="project-image-container">
                     <div class="project-image-wrapper">
-                        <img alt="{{ $project->title }}" class="w-full aspect-video object-cover" src="{{ $project->image_url }}"/>
+                        @php
+                            $isSafeUrl = $project->image_url &&
+                                       (Str::startsWith($project->image_url, ['http://', 'https://', '/', 'data:']) &&
+                                       !Str::startsWith($project->image_url, 'file:'));
+                        @endphp
+                        @if($isSafeUrl)
+                        <img alt="{{ $project->title }}" class="w-full aspect-video object-cover" src="{{ $project->image_url }}" loading="lazy"/>
+                        @else
+                        <div class="w-full aspect-video bg-primary/5 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary/20 text-4xl">image</span>
+                        </div>
+                        @endif
                         <div class="project-image-overlay">
                             <span class="project-view-btn">
                                 <span class="lang-id">Lihat Studi Kasus</span>

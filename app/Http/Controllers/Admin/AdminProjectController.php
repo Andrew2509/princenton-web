@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class AdminProjectController extends Controller
 {
@@ -49,13 +51,19 @@ class AdminProjectController extends Controller
             'problem_text_id' => 'nullable|string',
             'solution_text' => 'nullable|string',
             'solution_text_id' => 'nullable|string',
-            'image_url' => 'nullable|string|max:500',
             'live_link' => 'nullable|string|max:500',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'nullable|boolean',
             'status' => 'nullable|string|max:50',
             'year' => 'nullable|string|max:10',
+            'mockup_file' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('mockup_file')) {
+            $file = $request->file('mockup_file');
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $validated['image_url'] = 'data:' . $file->getMimeType() . ';base64,' . $base64;
+        }
 
         if (isset($validated['tags'])) {
             $validated['tags'] = array_map('trim', explode(',', $validated['tags']));
@@ -102,13 +110,19 @@ class AdminProjectController extends Controller
             'problem_text_id' => 'nullable|string',
             'solution_text' => 'nullable|string',
             'solution_text_id' => 'nullable|string',
-            'image_url' => 'nullable|string|max:500',
             'live_link' => 'nullable|string|max:500',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'nullable|boolean',
             'status' => 'nullable|string|max:50',
             'year' => 'nullable|string|max:10',
+            'mockup_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('mockup_file')) {
+            $file = $request->file('mockup_file');
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $validated['image_url'] = 'data:' . $file->getMimeType() . ';base64,' . $base64;
+        }
 
         if (isset($validated['tags'])) {
             $validated['tags'] = array_map('trim', explode(',', $validated['tags']));

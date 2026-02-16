@@ -4,48 +4,16 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>@yield('title', 'Admin Panel') | Portfolio Management</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    @vite(['resources/css/admin.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script defer src="/_vercel/speed-insights/script.js"></script>
     <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#1e293b",
-                        "sidebar-blue": "#0f172a",
-                        "accent": "#3b82f6",
-                        "background-light": "#f8fafc",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"}
-                },
-            },
-        }
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply font-display text-slate-900 bg-background-light; }
-        }
-        .sidebar-link-active {
-            @apply bg-accent/10 text-accent border-r-4 border-accent;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-    </style>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="flex h-screen overflow-hidden">
 
@@ -94,7 +62,7 @@
     <div class="p-4 border-t border-white/10 bg-black/20">
         <div class="flex items-center gap-3">
             @if(auth()->user()->avatar_url)
-                <img src="{{ asset(auth()->user()->avatar_url) }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-white/10">
+                <img src="{{ auth()->user()->avatar_url }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-white/10">
             @else
                 <div class="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center text-white font-bold text-sm">
                     {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
@@ -145,6 +113,13 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-3">
+                    <span class="material-symbols-outlined text-xl">error</span>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            @endif
+
             @if($errors->any())
                 <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl">
                     <div class="flex items-center gap-3 mb-2">
@@ -164,6 +139,11 @@
     </div>
 </main>
 
-    <script src="{{ asset('admin/js/auto_translate.js') }}"></script>
+    <script>
+        window.siteConfig = {
+            contactEmail: "{{ \App\Models\SiteSetting::get('contact_email', 'admin@example.com') }}"
+        };
+    </script>
+    <script src="{{ asset('admin/js/auto_translate.js') }}?v={{ time() }}"></script>
 </body>
 </html>

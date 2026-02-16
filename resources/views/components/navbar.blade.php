@@ -8,27 +8,27 @@
         <div class="nav-logo-container">
             <div class="nav-logo" @if(!empty($site_settings['favicon_url'])) style="background:none; width:auto; height:auto;" @endif>
                 @if(!empty($site_settings['favicon_url']))
-                    <img src="{{ asset($site_settings['favicon_url']) }}" alt="Logo" class="w-15 h-15 object-contain"/>
+                    <img src="{{ $site_settings['favicon_url'] }}" alt="Logo" class="w-15 h-15 object-contain"/>
                 @else
                     <span class="font-bold text-xl">{{ \App\Models\SiteSetting::t('site_logo_text') ?? 'AP' }}</span>
                 @endif
             </div>
-            <a href="/" class="nav-brand">{{ \App\Models\SiteSetting::t('site_name') ?? 'AndrewPrince' }}</a>
+            <a href="{{ route('home') }}" class="nav-brand">{{ \App\Models\SiteSetting::t('site_name') ?? 'AndrewPrince' }}</a>
         </div>
         <div class="nav-links">
-            <a class="nav-link" href="/">
+            <a class="nav-link" href="{{ route('home') }}">
                 <span class="lang-id">Beranda</span>
                 <span class="lang-en">Home</span>
             </a>
-            <a class="nav-link" href="/projects">
+            <a class="nav-link" href="{{ route('projects') }}">
                 <span class="lang-id">Proyek</span>
                 <span class="lang-en">Work</span>
             </a>
-            <a class="nav-link" href="/process">
+            <a class="nav-link" href="{{ route('process') }}">
                 <span class="lang-id">Proses</span>
                 <span class="lang-en">Process</span>
             </a>
-            <a class="nav-link" href="/about">
+            <a class="nav-link" href="{{ route('about') }}">
                 <span class="lang-id">Tentang</span>
                 <span class="lang-en">About</span>
             </a>

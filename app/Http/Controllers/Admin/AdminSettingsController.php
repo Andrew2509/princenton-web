@@ -31,9 +31,9 @@ class AdminSettingsController extends Controller
         // Process Favicon Upload
         if ($request->hasFile('favicon')) {
             $file = $request->file('favicon');
-            $filename = 'favicon_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('settings', $filename, 'public');
-            $settingsData['favicon_url'] = 'storage/' . $path;
+            $imageData = base64_encode(file_get_contents($file->getRealPath()));
+            $mimeType = $file->getMimeType();
+            $settingsData['favicon_url'] = 'data:' . $mimeType . ';base64,' . $imageData;
         }
 
         // Process Social Links into JSON
@@ -70,9 +70,9 @@ class AdminSettingsController extends Controller
             // Process Avatar Upload
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
-                $filename = 'avatar_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('avatars', $filename, 'public');
-                $userUpdateData['avatar_url'] = 'storage/' . $path;
+                $imageData = base64_encode(file_get_contents($file->getRealPath()));
+                $mimeType = $file->getMimeType();
+                $userUpdateData['avatar_url'] = 'data:' . $mimeType . ';base64,' . $imageData;
             }
 
             // Handle 2FA Preference

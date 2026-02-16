@@ -4,10 +4,20 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{{ $about->name ?? 'About Me' }} | {{ \App\Models\SiteSetting::t('site_title') ?? 'The Human Behind the Code' }}</title>
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     @vite(['resources/css/app.css', 'resources/css/about.css', 'resources/js/app.js'])
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="bg-white dark:bg-background-dark font-display text-primary transition-colors duration-300">
     @include('components.navbar')
@@ -17,7 +27,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="relative">
                     <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-primary/20 p-2">
-                        <img alt="Casual portrait of {{ $about->name }}" class="w-full aspect-[4/5] object-cover rounded-lg" src="{{ $about->profile_image_url }}"/>
+                        <img alt="Casual portrait of {{ $about->name }}"
+                             class="w-full aspect-[4/5] object-cover rounded-lg"
+                             src="{{ $about->profile_image_url }}"
+                             fetchpriority="high"
+                             loading="eager"/>
                     </div>
                     <div class="absolute -top-6 -left-6 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
                     <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
@@ -162,7 +176,7 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                 @foreach($skills as $skill)
                 <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/5 text-center group hover:border-primary/20 transition-all">
-                    <img alt="{{ $skill->name }}" class="h-10 w-auto mx-auto mb-4 grayscale group-hover:grayscale-0 transition-all" src="{{ $skill->icon_url }}"/>
+                    <img alt="{{ $skill->name }}" class="h-10 w-auto mx-auto mb-4 grayscale group-hover:grayscale-0 transition-all" src="{{ $skill->icon_url }}" loading="lazy"/>
                     <p class="text-sm font-bold dark:text-white">{{ $skill->name }}</p>
                 </div>
                 @endforeach

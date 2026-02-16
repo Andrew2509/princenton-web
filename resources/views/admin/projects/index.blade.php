@@ -85,7 +85,12 @@
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                                @if($project->image_url)
+                                    @php
+                                        $isSafeUrl = $project->image_url &&
+                                                   (Str::startsWith($project->image_url, ['http://', 'https://', '/', 'data:']) &&
+                                                   !Str::startsWith($project->image_url, 'file:'));
+                                    @endphp
+                                @if($isSafeUrl)
                                 <img alt="{{ $project->title }}" class="w-full h-full object-cover" src="{{ $project->image_url }}"/>
                                 @else
                                 <div class="w-full h-full flex items-center justify-center bg-slate-100">

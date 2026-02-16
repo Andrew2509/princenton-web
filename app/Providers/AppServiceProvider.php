@@ -27,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
+        // Fix for Vercel read-only filesystem
+        if (isset($_SERVER['VERCEL']) || env('VERCEL')) {
+            config([
+                'filesystems.disks.local.root' => '/tmp/storage/app/private',
+                'filesystems.disks.public.root' => '/tmp/storage/app/public',
+            ]);
+        }
+
         $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
 
         $defaultLang = $settings['default_language'] ?? 'en';

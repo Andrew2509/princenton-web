@@ -53,20 +53,9 @@
                             </div>
                         </div>
 
-                        {{-- Upload Mode Tabs --}}
-                        <div class="w-full flex bg-slate-100 p-1 rounded-lg mb-4">
-                            <button type="button" onclick="switchPhotoMode('upload')" id="tab-upload" class="flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all bg-white text-accent shadow-sm">Upload</button>
-                            <button type="button" onclick="switchPhotoMode('url')" id="tab-url" class="flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all text-slate-500 hover:text-slate-700">Link</button>
-                        </div>
-
                         {{-- Upload Input --}}
                         <div id="photo-upload-input" class="w-full">
                             <input type="file" name="profile_image" id="profile-file-input" class="block w-full text-[10px] text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 cursor-pointer" onchange="previewProfileFile(this)"/>
-                        </div>
-
-                        {{-- URL Input --}}
-                        <div id="photo-url-input" class="w-full hidden">
-                            <input type="text" name="profile_image_url" id="profile-url-field" value="{{ old('profile_image_url', $about->profile_image_url) }}" class="w-full px-3 py-2 bg-slate-50 border-slate-200 rounded-lg text-xs focus:ring-accent/20 focus:border-accent" placeholder="https://example.com/photo.jpg" oninput="previewProfileUrl(this.value)" disabled/>
                         </div>
 
                         <p class="mt-3 text-[10px] text-slate-400 text-center">Recommended: 1:1 Aspect Ratio (Min 400x400px)</p>
@@ -881,29 +870,6 @@
         container.appendChild(card);
     }
     // ── Profile Photo management ──
-    function switchPhotoMode(mode) {
-        const uploadTab = document.getElementById('tab-upload');
-        const urlTab = document.getElementById('tab-url');
-        const uploadInput = document.getElementById('photo-upload-input');
-        const urlInput = document.getElementById('photo-url-input');
-
-        if (mode === 'upload') {
-            uploadTab.className = 'flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all bg-white text-accent shadow-sm';
-            urlTab.className = 'flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all text-slate-500 hover:text-slate-700';
-            uploadInput.classList.remove('hidden');
-            urlInput.classList.add('hidden');
-            document.getElementById('profile-file-input').disabled = false;
-            document.getElementById('profile-url-field').disabled = true;
-        } else {
-            urlTab.className = 'flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all bg-white text-accent shadow-sm';
-            uploadTab.className = 'flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all text-slate-500 hover:text-slate-700';
-            urlInput.classList.remove('hidden');
-            uploadInput.classList.add('hidden');
-            document.getElementById('profile-file-input').disabled = true;
-            document.getElementById('profile-url-field').disabled = false;
-        }
-    }
-
     function previewProfileFile(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -912,11 +878,6 @@
             }
             reader.readAsDataURL(input.files[0]);
         }
-    }
-
-    function previewProfileUrl(url) {
-        const preview = document.getElementById('profile-preview');
-        preview.src = url || 'https://via.placeholder.com/160';
     }
 </script>
 @endsection

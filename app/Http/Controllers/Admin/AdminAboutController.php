@@ -55,14 +55,10 @@ class AdminAboutController extends Controller
 
         // Handle profile image upload
         if ($request->hasFile('profile_image')) {
-            // Delete old local image if it exists
-            if ($about->profile_image_url && str_contains($about->profile_image_url, '/storage/profile/')) {
-                $oldPath = str_replace('/storage/', '', $about->profile_image_url);
-                Storage::disk('public')->delete($oldPath);
-            }
-
-            $path = $request->file('profile_image')->store('profile', 'public');
-            $validated['profile_image_url'] = Storage::url($path);
+            $file = $request->file('profile_image');
+            $imageData = base64_encode(file_get_contents($file->getRealPath()));
+            $mimeType = $file->getMimeType();
+            $validated['profile_image_url'] = 'data:' . $mimeType . ';base64,' . $imageData;
         }
 
         // Process philosophies English

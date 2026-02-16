@@ -5,13 +5,23 @@
             <input type="number" name="phase_number" value="{{ old('phase_number', $step->phase_number ?? '') }}" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="e.g. 1" required>
         </div>
         <div>
-            <label class="block text-sm font-bold text-slate-700 mb-2">Title <span class="text-red-500">*</span></label>
-            <input type="text" name="title" value="{{ old('title', $step->title ?? '') }}" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="e.g. Situation / Research" required>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Title (EN) <span class="text-red-500">*</span></label>
+            <input type="text" name="title" value="{{ old('title', $step->title ?? '') }}" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="e.g. Situation / Research" data-translate-target="title_id" required>
         </div>
     </div>
-    <div>
-        <label class="block text-sm font-bold text-slate-700 mb-2">Description</label>
-        <textarea name="description" rows="4" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="Describe this methodology phase...">{{ old('description', $step->description ?? '') }}</textarea>
+    <div class="space-y-2">
+        <label class="block text-sm font-bold text-slate-400 mb-2">Title (ID)</label>
+        <input type="text" name="title_id" id="title_id" value="{{ old('title_id', $step->title_id ?? '') }}" class="w-full px-4 py-2.5 border border-slate-100 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="misal: Situasi / Riset">
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Description (EN)</label>
+            <textarea name="description" rows="4" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="Describe this methodology phase..." data-translate-target="description_id">{{ old('description', $step->description ?? '') }}</textarea>
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-slate-400 mb-2">Description (ID)</label>
+            <textarea name="description_id" id="description_id" rows="4" class="w-full px-4 py-2.5 border border-slate-100 rounded-lg text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent" placeholder="Jelaskan fase metodologi ini...">{{ old('description_id', $step->description_id ?? '') }}</textarea>
+        </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div>
