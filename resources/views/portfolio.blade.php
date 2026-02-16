@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{{ \App\Models\SiteSetting::t('site_title') ?? 'Process-Driven Portfolio | UI/UX & Dev' }}</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

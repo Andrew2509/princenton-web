@@ -7,6 +7,7 @@
         <span class="lang-id">Hubungi Saya | AndrewPrince.dev</span>
         <span class="lang-en">Contact Me | AndrewPrince.dev</span>
     </title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
