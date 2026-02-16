@@ -47,10 +47,10 @@
         </div>
     </section>
 
-<section class="py-12 bg-white dark:bg-white/[0.02] border-y border-primary/5 overflow-hidden">
-    <div class="marquee-container !bg-transparent !py-0 !border-none relative">
-        <div class="absolute top-0 bottom-0 left-0 w-32 z-10 pointer-events-none bg-gradient-to-r from-white dark:from-[#15181d] to-transparent"></div>
-        <div class="absolute top-0 bottom-0 right-0 w-32 z-10 pointer-events-none bg-gradient-to-l from-white dark:from-[#15181d] to-transparent"></div>
+<section class="py-12 bg-white dark:bg-white/2 border-y border-primary/5 overflow-hidden">
+    <div class="marquee-container bg-transparent! py-0! border-none! relative">
+        <div class="absolute top-0 bottom-0 left-0 w-32 z-10 pointer-events-none bg-linear-to-r from-white dark:from-[#15181d] to-transparent"></div>
+        <div class="absolute top-0 bottom-0 right-0 w-32 z-10 pointer-events-none bg-linear-to-l from-white dark:from-[#15181d] to-transparent"></div>
         <div class="animate-marquee">
             <!-- Tech Set 1 -->
             @foreach($skills as $skill)

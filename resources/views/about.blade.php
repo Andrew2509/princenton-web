@@ -162,7 +162,7 @@
         </div>
     </section>
 
-    <section class="py-24 bg-primary/5 dark:bg-white/[0.02]">
+    <section class="py-24 bg-primary/5 dark:bg-white/2">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold dark:text-white mb-4">

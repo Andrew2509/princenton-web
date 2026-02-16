@@ -318,14 +318,20 @@ body {
 }
 
 .hero-heading {
-    font-size: 3rem;
+    font-size: 2.25rem;
     font-weight: 700;
     line-height: 1.1;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+}
+@media (min-width: 640px) {
+    .hero-heading {
+        font-size: 3rem;
+    }
 }
 @media (min-width: 1024px) {
     .hero-heading {
         font-size: 4.5rem;
+        margin-bottom: 2rem;
     }
 }
 .dark .hero-heading {
@@ -402,12 +408,20 @@ body {
 }
 
 .hero-stats {
-    margin-top: 3rem;
-    padding-top: 3rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
     border-top: 1px solid rgba(41, 55, 84, 0.1);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+}
+@media (min-width: 480px) {
+    .hero-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 3rem;
+        padding-top: 3rem;
+    }
 }
 
 .hero-stat-value {
